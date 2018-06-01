@@ -1,13 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
     <title>App | Api</title>
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<h3>Use buttons below to make the api call </h3>
+<input type="text" name="textfield" id="textfield" value="Project issue" />
+<input name="" type="button" id ="apiBtn" value="make api call">
+<div id = "parsedJson">
+    <p>Filler</p>
+</div>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
 </body>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>
+    // when button is pressed make the api call
+    function callApi()
+    {
+        // get the api stuff, for now let's just pretend we have stuff
+        var output = "Pretend this is an api return..."
+        populateOutput(output)
+    }
+
+    // this will show us the json stuff inside our website
+    function populateOutput(apiReturn) {
+        console.log("Other is happening: " + apiReturn)
+        $("#parsedJson").append("<p>" + apiReturn + "</p>");
+    }
+
+    $(function () {
+        $( "#apiBtn" ).click(function() { callApi(); });
+    });
+</script>
 </html>
