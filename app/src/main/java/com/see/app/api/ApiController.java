@@ -1,15 +1,12 @@
 package com.see.app.api;
 
 // import requirements for spring controller
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 // import requirements for online API request
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -63,12 +60,6 @@ public class ApiController {
         // TODO: any filtering on the object, such as taking out not needed fields,values, etc.
 
         return response;
-    }
-
-    private ApiObject cleanResult( ResponseEntity<String> response)
-    {
-        //TODO: format the json into a nice API object
-        return new ApiObject();
     }
 
 }

@@ -22,20 +22,9 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script>
-    // when button is pressed make the api call
-    function callApi()
-    {
-        var callForm =  "/call-api/" + $("#textfield").val()
-        console.log(callForm)
-        var output = $.getJSON(callForm);
-       // TODO: currently assuming data comes in perfectly formatted,is a json(might want to change), no erros, etc.
-        console.log(output)
-        console.log(output[0])
-        console.log(output[1])
-        populateOutput(JSON.stringify(output))
-    }
 
     function populateOutput(apiReturn) {
+
         $("#parsedJson").append("<p>" + apiReturn + "</p>");
     }
 
