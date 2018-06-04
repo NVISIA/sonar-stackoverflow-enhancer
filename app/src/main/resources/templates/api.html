@@ -13,6 +13,7 @@
 <div id = "parsedJson">
     <p>Filler</p>
 </div>
+<input type="button"  onclick="location.href='/register.htm'" value="Register" >
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
@@ -27,13 +28,13 @@
     function callApi()
     {
         // get the api stuff, for now let's just pretend we have stuff
-        var output = "Pretend this is an api return..."
+        var output = "localhost:8080/call/stuff"
         populateOutput(output)
     }
 
     // this will show us the json stuff inside our website
     function populateOutput(apiReturn) {
-        console.log("Other is happening: " + apiReturn)
+        console.log("DEBUG API.HTML -> populateOutput: " + apiReturn)
         $("#parsedJson").append("<p>" + apiReturn + "</p>");
     }
 
