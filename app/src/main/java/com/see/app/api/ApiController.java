@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 @Controller
 public class ApiController {
 
@@ -22,8 +25,15 @@ public class ApiController {
         //TODO: Check that there is no api object with the same issue
         //TODO: If such object exists, reutrn it's result instead of calling API
 
-         // create an ApiObject based on issue
-        ApiObject issueObject = new ApiObject();
+        String query = null;
+        try {
+            query = URLEncoder.encode(issue,"UTF-8");
+        } catch (UnsupportedEncodingException ignored) {
+            // usually ignored because UTF-8 is always supported, but just in case
+            throw new AssertionError("UTF-8 is unknown");
+        }
+        // create an ApiObject based on issue
+        ApiObject issueObject = new ApiObject(query);
         //create API call to the website
         ResponseEntity<String> response = callSOApi(issueObject);
 
