@@ -8,13 +8,13 @@ public class ApiObject {
     public String title;
     public int score;
 
+    public ApiObject() {super(); }
+
     public ApiObject(String issue)
     {
         super();
         this.issue = issue;
     }
-
-    public ApiObject() {super(); }
 
     public ApiObject(String issue, String result, String link, String title, int score) {
         this.issue = issue;

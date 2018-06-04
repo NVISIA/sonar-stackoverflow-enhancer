@@ -16,12 +16,17 @@ import java.net.URLEncoder;
 @Controller
 public class ApiController {
 
-    // make a single API call using the RestTemplate
-    @RequestMapping(value = "/call/{issue}", method = RequestMethod.GET,produces = "application/json")
-    public ResponseEntity<String> callStack(@PathVariable("issue") String issue)
-    {
+    private static final String API_URL_2_2 = "https://api.stackexchange.com/2.2/";
 
-        System.out.println("The issue is: " + issue);
+    @GetMapping("/call-api/{issue}")
+    @ResponseBody
+    public ApiObject getObject(@PathVariable(value="issue") String issue) {
+        return createCall(issue);
+    }
+
+    // make a single API call using the RestTemplate
+    private ApiObject createCall(String issue){
+
         //TODO: Check that there is no api object with the same issue
         //TODO: If such object exists, reutrn it's result instead of calling API
 
@@ -38,11 +43,11 @@ public class ApiController {
         ResponseEntity<String> response = callSOApi(issueObject);
 
         // now we save the issue to the ApiObject as a string
-        //issueObject.setResult(response.toString());
+        issueObject.setResult(response.toString());
 
         // TODO: Store the issue object to be compared later
 
-        return response;
+        return issueObject;
     }
 
     //Call stackoverlfow api
@@ -50,12 +55,13 @@ public class ApiController {
     {
         String resourceUrl = "https://jsonplaceholder.typicode.com/posts";
         // SO Api Call
-        //String resourceUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=votes&tagged="+ issueObject.getIssue() +"&site=stackoverflow";
+        //String resourceUrl = API_URL_2_2 + "search?order=desc&sort=votes&tagged="+ issueObject.getIssue() +"&site=stackoverflow";
+
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(resourceUrl + "/1", String.class);
         assert(response.getStatusCode() == (HttpStatus.OK));
         // TODO: any filtering on the object, such as taking out not needed fields,values, etc.
-        System.out.println();
+
         return response;
     }
 

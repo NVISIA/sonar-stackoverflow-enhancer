@@ -25,18 +25,37 @@
     // when button is pressed make the api call
     function callApi()
     {
-        var output = $.getJSON( "/call/" + $("#textfield").val() );
+        var callForm =  "/call-api/" + $("#textfield").val()
+        console.log(callForm)
+        var output = $.getJSON(callForm);
        // TODO: currently assuming data comes in perfectly formatted,is a json(might want to change), no erros, etc.
         console.log(output)
-       populateOutput(output)
+        console.log(output[0])
+        console.log(output[1])
+        populateOutput(JSON.stringify(output))
     }
 
     function populateOutput(apiReturn) {
         $("#parsedJson").append("<p>" + apiReturn + "</p>");
     }
 
+    function newCallApi()
+    {
+        var apiUrl =  "/call-api/" + $("#textfield").val()
+        var output =
+        $.ajax({
+            type: "GET",
+            url: apiUrl,
+            dataType: "json",
+            success: function(address) {
+                populateOutput(JSON.stringify(address.issue))
+                populateOutput(JSON.stringify(address.result))
+            }
+        });
+    }
+
     $(function () {
-        $( "#apiBtn" ).click(function(){callApi();});
+        $( "#apiBtn" ).click(function(){newCallApi();});
     });
 </script>
 </html>
