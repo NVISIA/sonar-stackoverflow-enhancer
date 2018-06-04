@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
-<head>
-    <title>App | Api</title>
+<title>App | Api</title>
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
@@ -27,19 +25,18 @@
     // when button is pressed make the api call
     function callApi()
     {
-        // get the api stuff, for now let's just pretend we have stuff
-        var output = "localhost:8080/call/stuff"
-        populateOutput(output)
+        var output = $.getJSON( "/call/" + $("#textfield").val() );
+       // TODO: currently assuming data comes in perfectly formatted,is a json(might want to change), no erros, etc.
+        console.log(output)
+       populateOutput(output)
     }
 
-    // this will show us the json stuff inside our website
     function populateOutput(apiReturn) {
-        console.log("DEBUG API.HTML -> populateOutput: " + apiReturn)
         $("#parsedJson").append("<p>" + apiReturn + "</p>");
     }
 
     $(function () {
-        $( "#apiBtn" ).click(function() { callApi(); });
+        $( "#apiBtn" ).click(function(){callApi();});
     });
 </script>
 </html>
