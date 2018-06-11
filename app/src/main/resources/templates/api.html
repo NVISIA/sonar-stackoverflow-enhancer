@@ -31,16 +31,8 @@
     function newCallApi()
     {
         var apiUrl =  "/call-api/" + $("#textfield").val()
-        var output =
-        $.ajax({
-            type: "GET",
-            url: apiUrl,
-            dataType: "json",
-            success: function(address) {
-                populateOutput(JSON.stringify(address.issue))
-                populateOutput(JSON.stringify(address.result))
-            }
-        });
+        var output = $.get(apiUrl,function(data, status){populateOutput(data)});
+
     }
 
     $(function () {

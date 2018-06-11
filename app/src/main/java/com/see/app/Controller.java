@@ -9,7 +9,7 @@ public class Controller implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception{
         String url = "http://localhost:8080/stuff";
-        System.out.print("Stuff is happening");
+        System.out.print("Application has launched . . . ");
 
     }
 
