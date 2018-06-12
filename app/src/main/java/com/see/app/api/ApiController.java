@@ -1,4 +1,5 @@
 package com.see.app.api;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.see.app.StackOverflow.*;
 
@@ -48,20 +49,12 @@ public class ApiController {
         //create API call to the website
         ResponseEntity<String> questionResponse = callGenericAPI(SO_API_QUESTION(issue_parsed));
         // create a java object based off the website's json result
-        StackOverflowQuestion questionObject = getFormatedObject(questionResponse.getBody());
-        System.out.println("DEBUG: whole object "+questionObject);
-
-        System.out.println("DEBUG: accepted answer id "+questionObject.getAcceptedAnswerId());
-
+        StackOverflowQuestion questionObject = mapResponseToQuestion(questionResponse.getBody());
         //now we know the issue, make another API call, but now get the
-        //ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(questionObject.getAcceptedAnswerId().toString()));
-
-        //DEBUG ONLY: HARDCODE FOR TESTING
-        ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER("24828666"));
-        StackOverflowAnswer answerObject = mapSOAnswer(answerResponse.getBody());
-        System.out.println(answerObject);
+        ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(questionObject.getAcceptedAnswerId().toString()));
+        StackOverflowAnswer answerObject = mapResponseToAnswer(answerResponse.getBody());
         //TODO: Take the result and parse it out to individual fields (not single big string called result)
-        // TODO: Store the issue object to be compared later
+        //TODO: Store the issue object to be compared later
 
         //TODO: Don't return the issue, return the answer instead
         return answerObject;
@@ -76,51 +69,36 @@ public class ApiController {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         ResponseEntity<String> response = restTemplate.getForEntity(resourceUrl, String.class);
         assert(response.getStatusCode() == (HttpStatus.OK));
-        // TODO: any filtering on the object, such as taking out not needed fields,values, etc.
         return response;
     }
 
-    //TODO: condense the two functions into one
-    private StackOverflowQuestion getFormatedObject(String response){
-
-        StackOverflowQuestion issueObject;
+    // creating a generic mapping
+    private StackOverflowQuestion mapResponseToQuestion(String response){
         try{
-            issueObject = objectMapper.readValue(response, StackOverflowQuestion.class);
-        }catch (Exception error)
-        {
-            throw new AssertionError("Can't read the values from the json");
-        }
-        return issueObject;
-    }
-
-    private StackOverflowAnswer mapSOAnswer(String response){
-
-        try{
-
             JsonNode array = objectMapper.readValue(response, JsonNode.class);
-            JsonNode node = array.get("items");
-            String content = node.toString();
-            // todo: FIX, currently  REMOVE FIRST AND LAST
-            content = content.substring(1, content.length()-1);
-            //            System.out.println(content);
-            StackOverflowAnswer stackOverflowAnswer = objectMapper.readValue(content,StackOverflowAnswer.class);
-            return stackOverflowAnswer;
-
+            String content = array.get("items").get(0).toString();
+            return  objectMapper.readValue(content, StackOverflowQuestion.class);
         }catch (Exception error) {
             throw new AssertionError("Can't read the values from the json");
         }
-
+    }
+    private StackOverflowAnswer mapResponseToAnswer(String response){
+        try{
+            JsonNode array = objectMapper.readValue(response, JsonNode.class);
+            String content = array.get("items").get(0).toString();
+            return  objectMapper.readValue(content, StackOverflowAnswer.class);
+        }catch (Exception error) {
+            throw new AssertionError("Can't read the values from the json");
+        }
     }
 
     private String encodeURL(String word)
     {
-        String word_parsed = null;
         try {
-            word_parsed = URLEncoder.encode(word,"UTF-8");
+            return URLEncoder.encode(word,"UTF-8");
         } catch (UnsupportedEncodingException ignored) {
             // usually ignored because UTF-8 is always supported, but just in case
             throw new AssertionError("UTF-8 is unknown");
         }
-        return word_parsed;
     }
 }

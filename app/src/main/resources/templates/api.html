@@ -9,7 +9,6 @@
 <input type="text" name="textfield" id="textfield" value="Project issue" />
 <input name="" type="button" id ="apiBtn" value="make api call">
 <div id = "parsedJson">
-    <p>Filler</p>
 </div>
 <input type="button"  onclick="location.href='/register.htm'" value="Register" >
 <form th:action="@{/logout}" method="post">
@@ -31,8 +30,9 @@
     function newCallApi()
     {
         var apiUrl =  "/call-api/" + $("#textfield").val()
-        $.get(apiUrl,function(data, status){console.log(data);populateOutput(data)});
-
+        $.get(apiUrl,function(data){
+          populateOutput(data)
+        });
     }
 
     $(function () {
