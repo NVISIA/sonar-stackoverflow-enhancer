@@ -30,7 +30,7 @@ import org.apache.commons.lang3.builder.*;
         "link",
         "title"
 })
-public class StackOverflowObject {
+public class StackOverflowQuestion {
 
     @JsonProperty("tags")
     private List<String> tags = null;

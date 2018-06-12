@@ -31,7 +31,7 @@
     function newCallApi()
     {
         var apiUrl =  "/call-api/" + $("#textfield").val()
-        var output = $.get(apiUrl,function(data, status){populateOutput(data)});
+        $.get(apiUrl,function(data, status){console.log(data);populateOutput(data)});
 
     }
 
