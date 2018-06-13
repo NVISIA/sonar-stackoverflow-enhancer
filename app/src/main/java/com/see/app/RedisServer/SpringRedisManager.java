@@ -6,7 +6,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-
 public class SpringRedisManager {
 
     public SpringRedisManager() {
@@ -25,15 +24,19 @@ public class SpringRedisManager {
         }
     }
 
-    public String getAnswer(String key)
+    public static String getAnswer(String key)
     {
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringRedisConfig.class);
-        String redisValue;
+        String redisValue = null;
         try {
             RedisTemplate redisTemplate = (RedisTemplate) ctx.getBean("redisTemplate");
-            ValueOperations values = redisTemplate.opsForValue();
-            redisValue = values.get(key).toString();
+            if(redisTemplate.hasKey(key))
+            {
+                ValueOperations values = redisTemplate.opsForValue();
+                redisValue = values.get(key).toString();
+            }
+
         }
         finally {
             ctx.close();
@@ -42,12 +45,9 @@ public class SpringRedisManager {
 
     }
 
-    public String checkRedisServer(StackOverflowAnswer answerElem)
+    public StackOverflowAnswer checkRedisServer(String key)
     {
-        String key = answerElem.getPostId().toString();
-        String content = answerElem.getBody();
-        // TODO: check if the server already contains the key
-
+        String content = getAnswer(key);
         //TODO: if key exists, return it
 
         // TODO: the entry doesn't exist, return something else?

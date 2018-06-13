@@ -1,5 +1,4 @@
 package com.see.app.api;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.see.app.RedisServer.SpringRedisManager;
 import com.see.app.StackOverflow.*;
@@ -39,12 +38,12 @@ public class ApiController {
     @ResponseBody
     public String getObject(@PathVariable(value="issue") String issue) {
 
-        return createCall(issue).getBody();
+        return createCall(issue);
     }
 
 
     // make a single API call using the RestTemplate
-    private StackOverflowAnswer createCall(String issue){
+    private String createCall(String issue){
 
         //TODO: Check that there is no api object with the same issue
         //TODO: If such object exists, return it's result instead of calling API
@@ -55,16 +54,22 @@ public class ApiController {
         // create a java object based off the website's json result
         StackOverflowQuestion questionObject = mapResponseToQuestion(questionResponse.getBody());
         // check redis server for the answer id
+        String answerID = questionObject.getAcceptedAnswerId().toString();
         //TODO redis server answer check
-
+        String redisContent = SpringRedisManager.getAnswer(answerID);
+        // if we have it, we return it, else make api call and return that
+        if(redisContent != null)
+        {
+            return redisContent;
+        }
 
         //now we know the issue, make another API call, but now get the
-        ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(questionObject.getAcceptedAnswerId().toString()));
+        ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(answerID));
         StackOverflowAnswer answerObject = mapResponseToAnswer(answerResponse.getBody());
         //TODO: Take the result and parse it out to individual fields (not single big string called result)
         //TODO: storing the java object into the redis since it doesn't exist inside of it
 
-        return answerObject;
+        return answerObject.getBody();
     }
 
 
