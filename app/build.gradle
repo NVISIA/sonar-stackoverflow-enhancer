@@ -29,21 +29,27 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
-
+    compile("org.springframework.boot:spring-boot-starter-redis")
 
     compile ('org.apache.httpcomponents:httpclient:4.5.5')
     compile ('org.apache.commons:commons-lang3:3.7')
+    compile ('org.apache.commons:commons-pool2:2.4.2')
     // packages for api manipulation, such as taking json to java
     compile('org.fasterxml.jackson.core:jackson-core:2.9.5')
     compile('org.fasterxml.jackson.core:jackson-databind:2.9.5')
     compile('org.fasterxml.jackson.core:jackson-annotations:2.9.5')
     // packages needed for redis server
-    compile('org.redis.clients:redis:1.5.0')
-    compile("org.springframework.data:spring-data-redis:1.5.0.RELEASE")
+    compile('redis.clients:jedis:2.9.0')
 
+    compile('org.springframework.data:spring-data-redis:2.0.7.RELEASE')
+
+
+    //security
     // tag::security[]
     compile("org.springframework.boot:spring-boot-starter-security")
     // end::security[]
+
+    //tests
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.springframework.security:spring-security-test")
     testCompile("junit:junit")

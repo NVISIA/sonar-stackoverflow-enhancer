@@ -3,6 +3,7 @@ package com.see.app.StackOverflow;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -24,7 +25,7 @@ import org.apache.commons.lang3.builder.*;
             "body"
     })
 
-public class StackOverflowAnswer {
+public class StackOverflowAnswer implements Serializable {
 
         @JsonProperty("owner")
         private Owner owner;
@@ -202,6 +203,4 @@ public class StackOverflowAnswer {
             return new ToStringBuilder(this).append("owner", owner).append("score", score).append("lastEditDate", lastEditDate).append("lastActivityDate", lastActivityDate).append("creationDate", creationDate).append("postType", postType).append("postId", postId).append("link", link).append("body", body).append("additionalProperties", additionalProperties).toString();
         }
 
-    public StackOverflowAnswer() {
-    }
 }

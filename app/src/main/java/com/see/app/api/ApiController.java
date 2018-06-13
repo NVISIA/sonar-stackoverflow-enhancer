@@ -1,6 +1,7 @@
 package com.see.app.api;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.see.app.RedisServer.SpringRedisManager;
 import com.see.app.StackOverflow.*;
 
 
@@ -26,18 +27,21 @@ public class ApiController {
     private static final String SO_API_URL_2_2 = "https://api.stackexchange.com/2.2/";
     private String SO_API_QUESTION(String query){return SO_API_URL_2_2 + "search?pagesize=1&order=desc&sort=votes&tagged=" + query + "&site=stackoverflow";}
     private String SO_API_ANSWER  (String query){return SO_API_URL_2_2 + "posts/" + query + "?site=stackoverflow&filter=withbody";}
-
+    SpringRedisManager redisManager;
 
     public ApiController()
     {
         objectMapper = new ObjectMapper();
+        redisManager = new SpringRedisManager();
     }
 
     @GetMapping("/call-api/{issue}")
     @ResponseBody
     public String getObject(@PathVariable(value="issue") String issue) {
+
         return createCall(issue).getBody();
     }
+
 
     // make a single API call using the RestTemplate
     private StackOverflowAnswer createCall(String issue){
@@ -50,13 +54,16 @@ public class ApiController {
         ResponseEntity<String> questionResponse = callGenericAPI(SO_API_QUESTION(issue_parsed));
         // create a java object based off the website's json result
         StackOverflowQuestion questionObject = mapResponseToQuestion(questionResponse.getBody());
+        // check redis server for the answer id
+        //TODO redis server answer check
+
+
         //now we know the issue, make another API call, but now get the
         ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(questionObject.getAcceptedAnswerId().toString()));
         StackOverflowAnswer answerObject = mapResponseToAnswer(answerResponse.getBody());
         //TODO: Take the result and parse it out to individual fields (not single big string called result)
-        //TODO: Store the issue object to be compared later
+        //TODO: storing the java object into the redis since it doesn't exist inside of it
 
-        //TODO: Don't return the issue, return the answer instead
         return answerObject;
     }
 
