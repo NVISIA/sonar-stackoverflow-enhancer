@@ -10,7 +10,9 @@ public class Controller implements CommandLineRunner {
     public void run(String... strings) throws Exception{
         String url = "http://localhost:8080/stuff";
         System.out.print("Application has launched . . . ");
-
     }
+
+
+
 
 }

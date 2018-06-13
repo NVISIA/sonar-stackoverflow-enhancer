@@ -1,6 +1,5 @@
 package com.see.app.RedisServer;
 
-import com.see.app.StackOverflow.StackOverflowAnswer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,7 +11,7 @@ public class SpringRedisManager {
         System.out.println("-----------The redis manager has been created successfully-----------");
     }
 
-    public static void setAnswer(String key, String content){
+    public static void setValue(String key, String content){
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringRedisConfig.class);
         try {
@@ -24,7 +23,7 @@ public class SpringRedisManager {
         }
     }
 
-    public static String getAnswer(String key)
+    public static String getValue(String key)
     {
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringRedisConfig.class);
@@ -36,22 +35,11 @@ public class SpringRedisManager {
                 ValueOperations values = redisTemplate.opsForValue();
                 redisValue = values.get(key).toString();
             }
-
         }
         finally {
             ctx.close();
         }
         return redisValue;
 
-    }
-
-    public StackOverflowAnswer checkRedisServer(String key)
-    {
-        String content = getAnswer(key);
-        //TODO: if key exists, return it
-
-        // TODO: the entry doesn't exist, return something else?
-
-        return null;
     }
 }

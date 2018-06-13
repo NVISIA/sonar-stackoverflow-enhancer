@@ -24,13 +24,16 @@
 
     function populateOutput(apiReturn) {
 
-        $("#parsedJson").append("<p>" + apiReturn + "</p>");
+        $("#parsedJson").innerHTML("<p>" + apiReturn + "</p>");
     }
 
     function newCallApi()
     {
         var apiUrl =  "/call-api/" + $("#textfield").val()
-        $.get(apiUrl,function(data){
+        $.get(apiUrl,function(data,status)
+        {
+            console.log(data)
+            console.log(status)
           populateOutput(data)
         });
     }
