@@ -23,8 +23,7 @@
 <script>
 
     function populateOutput(apiReturn) {
-
-        $("#parsedJson").innerHTML("<p>" + apiReturn + "</p>");
+        document.getElementById("parsedJson").innerHTML = apiReturn;
     }
 
     function newCallApi()
