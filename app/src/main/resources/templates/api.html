@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+>
 <title>App | Api</title>
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 <h3>Use buttons below to make the api call </h3>
-<input type="text" name="textfield" id="textfield" value="Project issue" />
-<input name="" type="button" id ="apiBtn" value="make api call">
-<div id = "parsedJson">
+<input type="text" name="textfield" id="textfield" value="Project issue"/>
+<input name="" type="button" id="apiBtn" value="make api call">
+<div id="parsedJson">
 </div>
-<input type="button"  onclick="location.href='/register.htm'" value="Register" >
+<input type="button" onclick="location.href='/register.htm'" value="Register">
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
@@ -26,19 +26,19 @@
         document.getElementById("parsedJson").innerHTML = apiReturn;
     }
 
-    function newCallApi()
-    {
-        var apiUrl =  "/call-api/" + $("#textfield").val()
-        $.get(apiUrl,function(data,status)
-        {
+    function newCallApi() {
+        var apiUrl = "/call-api/" + $("#textfield").val()
+        $.get(apiUrl, function (data, status) {
             console.log(data)
             console.log(status)
-          populateOutput(data)
+            populateOutput(data)
         });
     }
 
     $(function () {
-        $( "#apiBtn" ).click(function(){newCallApi();});
+        $("#apiBtn").click(function () {
+            newCallApi();
+        });
     });
 </script>
 </html>
