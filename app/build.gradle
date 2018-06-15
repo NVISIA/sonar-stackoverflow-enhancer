@@ -20,25 +20,30 @@ group = 'com.see'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+bootJar {
+    baseName = 'see-spring-boot'
+    version =  '0.1.0'
+}
+
 repositories {
     mavenCentral()
 }
 
 
 dependencies {
-    comple("org.springframework.boot:spring-boot-gradle-plugin")
+    //compile("org.springframework.boot:spring-boot-gradle-plugin")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.boot:spring-boot-starter-redis")
+    //compile("org.springframework.boot:spring-boot-starter-redis")
 
     compile('org.apache.httpcomponents:httpclient:4.5.5')
     compile('org.apache.commons:commons-lang3:3.7')
     compile('org.apache.commons:commons-pool2:2.4.2')
     // packages for api manipulation, such as taking json to java
-    compile('org.fasterxml.jackson.core:jackson-core:2.9.5')
-    compile('org.fasterxml.jackson.core:jackson-databind:2.9.5')
-    compile('org.fasterxml.jackson.core:jackson-annotations:2.9.5')
+    //compile('org.fasterxml.jackson.core:jackson-core:2.9.5')
+    //compile('org.fasterxml.jackson.core:jackson-databind:2.9.5')
+    //compile('org.fasterxml.jackson.core:jackson-annotations:2.9.5')
     // packages needed for redis server
     compile('redis.clients:jedis:2.9.0')
 
