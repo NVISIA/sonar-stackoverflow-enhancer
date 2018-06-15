@@ -113,4 +113,5 @@ public class SonarObject {
         return new ToStringBuilder(this).append("total", total).append("p", p).append("ps", ps).append("paging", paging).append("issues", issues).append("components", components).append("additionalProperties", additionalProperties).toString();
     }
 
+
 }

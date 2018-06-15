@@ -4,6 +4,7 @@ import com.see.app.service.ServiceSonar;
 import com.see.app.service.ServiceStackOverflow;
 import com.see.app.sonar.Issue;
 import com.see.app.sonar.SonarObject;
+import com.see.app.stackOverflow.StackOverflowAnswer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ public class ApiController {
 
     @GetMapping("/stack-api/{issue}")
     @ResponseBody
-    public String stackAPI(@PathVariable(value = "issue") String issue) {
+    public StackOverflowAnswer stackAPI(@PathVariable(value = "issue") String issue) {
         ServiceStackOverflow soAPI = new ServiceStackOverflow();
         return soAPI.createCall(issue);
     }

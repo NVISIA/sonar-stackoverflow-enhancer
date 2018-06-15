@@ -21,12 +21,11 @@ import java.net.URLEncoder;
 public class ServiceStackOverflow {
 
     private static final String SO_API_URL_2_2 = "https://api.stackexchange.com/2.2/";
-    ObjectMapper objectMapper;
+
     SpringRedisManager redisManager;
 
     @Autowired
     public ServiceStackOverflow() {
-        objectMapper = new ObjectMapper();
         redisManager = new SpringRedisManager();
     }
 
@@ -38,11 +37,11 @@ public class ServiceStackOverflow {
         return SO_API_URL_2_2 + "posts/" + query + "?site=stackoverflow&filter=withbody";
     }
 
-    public String createCall(String issue) {
+    public StackOverflowAnswer createCall(String issue) {
         StackOverflowQuestion questionObject = createQuestion(issue);
         String answerID = questionObject.getAcceptedAnswerId().toString();
         StackOverflowAnswer answerObject = createAnswer(answerID);
-        return answerObject.getBody();
+        return answerObject;
     }
 
     private StackOverflowQuestion createQuestion(String issue) {
@@ -73,50 +72,15 @@ public class ServiceStackOverflow {
 
     private StackOverflowQuestion callQuestionAPI(String issue) {
         String issue_parsed = encodeURL(issue);
-        ResponseEntity<String> questionResponse = callGenericAPI(SO_API_QUESTION(issue_parsed));
-        StackOverflowQuestion questionObject = mapResponseToQuestion(questionResponse.getBody());
+        ResponseEntity<String> questionResponse = ServiceGeneralAPI.callGenericAPI(SO_API_QUESTION(issue_parsed));
+        StackOverflowQuestion questionObject = ServiceGeneralAPI.mapResponseToQuestion(questionResponse.getBody());
         return questionObject;
     }
 
     private StackOverflowAnswer callAnswerAPI(String answerID) {
-        ResponseEntity<String> answerResponse = callGenericAPI(SO_API_ANSWER(answerID));
-        StackOverflowAnswer answerObject = mapResponseToAnswer(answerResponse.getBody());
+        ResponseEntity<String> answerResponse = ServiceGeneralAPI.callGenericAPI(SO_API_ANSWER(answerID));
+        StackOverflowAnswer answerObject = ServiceGeneralAPI.mapResponseToAnswer(answerResponse.getBody());
         return answerObject;
-    }
-
-    private StackOverflowQuestion mapResponseToQuestion(String response) {
-        try {
-            return objectMapper.readValue(getContent(response), StackOverflowQuestion.class);
-        } catch (Exception error) {
-            throw new AssertionError("Can't map json to a java object");
-        }
-    }
-
-    private StackOverflowAnswer mapResponseToAnswer(String response) {
-        try {
-            return objectMapper.readValue(getContent(response), StackOverflowAnswer.class);
-        } catch (Exception error) {
-            throw new AssertionError("Can't map json to a java object");
-        }
-    }
-
-    private String getContent(String response) {
-        try {
-            JsonNode array = objectMapper.readValue(response, JsonNode.class);
-            return array.get("items").get(0).toString();
-        } catch (Exception exception) {
-            throw new AssertionError("Can't read the values from the json");
-        }
-    }
-
-    private ResponseEntity<String> callGenericAPI(String resourceUrl) {
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
-                HttpClientBuilder.create().build());
-        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        ResponseEntity<String> response = restTemplate.getForEntity(resourceUrl, String.class);
-        assert (response.getStatusCode() == (HttpStatus.OK));
-        return response;
     }
 
     private String encodeURL(String word) {

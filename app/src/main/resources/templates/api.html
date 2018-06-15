@@ -29,19 +29,20 @@
         document.getElementById(element).innerHTML = apiReturn;
     }
 
-    function callApi(passedIn) {
+    function callApi() {
         var apiUrl = "/stack-api/" + $("#textfield").val()
-        $.get(apiUrl, function (data, status) {
+        apiUrl = apiUrl.replace(/ /g, '%20') ;
+        console.log("You called api with : " + apiUrl)
+        $.get(apiUrl, function (data) {
             console.log(data)
-            console.log(status)
-            populateOutput(data,"stackOverflowOutput")
+            populateOutput(data["body"],"stackOverflowOutput")
         });
     }
 
-    function test()
+    function test(passedin)
     {
-        console.log("test")
-        $('#textfield').val("OKAY!");
+        console.log(passedin)
+        $('#textfield').val(passedin);
     }
 
     $(function () {
@@ -56,7 +57,7 @@
                 for(var stuff in data)
                 {   console.log(data[stuff])
                     var string = data[stuff]["message"]
-                    output = output + "<br> " + string +"<input  name=\"\" id=\'lol"+ stuff +"\' type=\'button\' value=\'Find solution\' onclick='test()'>"}
+                    output = output + "<br><p>" + string +"</p><input  name=\"\" id=\'lol"+ stuff +"\' type=\'button\' value=\'Find solution\' onclick=\"test(\'" + string + "\')\"'>"}
                 populateOutput(output,"sonarQubeOutput")
             });
         });

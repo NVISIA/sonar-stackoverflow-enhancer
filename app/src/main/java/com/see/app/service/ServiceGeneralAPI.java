@@ -1,5 +1,6 @@
 package com.see.app.service;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.see.app.sonar.SonarObject;
@@ -42,6 +43,16 @@ public class ServiceGeneralAPI {
         }
     }
 
+    public static <T> T mapResponse(String response, JavaType classType )
+    {
+        try {
+            return objectMapper.readValue(response,classType);
+        }
+        catch(Exception e)
+        {}
+        return null;
+    }
+
     public static StackOverflowAnswer mapResponseToAnswer(String response) {
         try {
             return objectMapper.readValue(getContent(response), StackOverflowAnswer.class);
@@ -68,6 +79,8 @@ public class ServiceGeneralAPI {
             throw new AssertionError("Can't map json to a java object");
         }
     }
+
+
 
 
 }
