@@ -8,9 +8,12 @@
 <h3>Use buttons below to make the api call </h3>
 <input type="text" name="textfield" id="textfield" value="Project issue"/>
 <input name="" type="button" id="apiBtn" value="make api call">
-<div id="parsedJson">
+<div><input name="" type="button" id="issueBtn" value="Get issues"></div>
+<div id="stackOverflowOutput">
 </div>
-<input type="button" onclick="location.href='/register.htm'" value="Register">
+<div id="sonarQubeOutput">
+</div>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
@@ -22,22 +25,40 @@
         crossorigin="anonymous"></script>
 <script>
 
-    function populateOutput(apiReturn) {
-        document.getElementById("parsedJson").innerHTML = apiReturn;
+    function populateOutput(apiReturn,element) {
+        document.getElementById(element).innerHTML = apiReturn;
     }
 
-    function newCallApi() {
-        var apiUrl = "/call-api/" + $("#textfield").val()
+    function callApi(passedIn) {
+        var apiUrl = "/stack-api/" + $("#textfield").val()
         $.get(apiUrl, function (data, status) {
             console.log(data)
             console.log(status)
-            populateOutput(data)
+            populateOutput(data,"stackOverflowOutput")
         });
+    }
+
+    function test()
+    {
+        console.log("test")
+        $('#textfield').val("OKAY!");
     }
 
     $(function () {
         $("#apiBtn").click(function () {
-            newCallApi();
+            callApi();
+        });
+        $("#issueBtn").click(function () {
+            var apiUrl = "/sonar-api";
+            $.get(apiUrl, function (data) {
+                console.log(data)
+                var output = ""
+                for(var stuff in data)
+                {   console.log(data[stuff])
+                    var string = data[stuff]["message"]
+                    output = output + "<br> " + string +"<input  name=\"\" id=\'lol"+ stuff +"\' type=\'button\' value=\'Find solution\' onclick='test()'>"}
+                populateOutput(output,"sonarQubeOutput")
+            });
         });
     });
 </script>
