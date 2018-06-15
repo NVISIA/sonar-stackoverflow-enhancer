@@ -30,16 +30,16 @@ public class ServiceStackOverflow {
     }
 
     private String SO_API_QUESTION(String query) {
-        return SO_API_URL_2_2 + "search?pagesize=1&order=desc&sort=votes&tagged=" + query + "&site=stackoverflow";
+        return SO_API_URL_2_2 + "search/advanced?order=desc&sort=votes&q=" + query + "&site=stackoverflow";
     }
 
     private String SO_API_ANSWER(String query) {
-        return SO_API_URL_2_2 + "posts/" + query + "?site=stackoverflow&filter=withbody";
+        return SO_API_URL_2_2 + "questions/" + query + "/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody";
     }
 
     public StackOverflowAnswer createCall(String issue) {
         StackOverflowQuestion questionObject = createQuestion(issue);
-        String answerID = questionObject.getAcceptedAnswerId().toString();
+        String answerID = questionObject.getQuestionId().toString();
         StackOverflowAnswer answerObject = createAnswer(answerID);
         return answerObject;
     }
@@ -49,10 +49,10 @@ public class ServiceStackOverflow {
         String redisContentQuestion = SpringRedisManager.getValue(issue);
         if (redisContentQuestion == null) {
             questionObject = callQuestionAPI(issue);
-            SpringRedisManager.setValue(issue, questionObject.getAcceptedAnswerId().toString());
+            SpringRedisManager.setValue(issue, questionObject.getQuestionId().toString());
         } else {
             questionObject = new StackOverflowQuestion();
-            questionObject.setAcceptedAnswerId(Integer.valueOf(redisContentQuestion));
+           questionObject.setQuestionId(Integer.valueOf(redisContentQuestion));
         }
         return questionObject;
     }
