@@ -1,11 +1,6 @@
 version: "2"
 
 services:
-  see-spring-app:
-     image: bkupiec/see-spring-app:0.1
-     ports:
-      - "8080:8080"
-
   redis:
     image: redis
     ports:
@@ -36,6 +31,11 @@ services:
       - postgresql:/var/lib/postgresql
       # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
       - postgresql_data:/var/lib/postgresql/data
+      
+  see-spring-app:
+    image: bkupiec/see-spring-app:0.1
+    ports:
+      - "8080:8080"
 
 networks:
   sonarnet:
