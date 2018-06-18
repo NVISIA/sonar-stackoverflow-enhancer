@@ -1,5 +1,6 @@
 package com.see.app.controller;
 
+import com.see.app.redisServer.SpringRedisManager;
 import com.see.app.service.ServiceSonar;
 import com.see.app.service.ServiceStackOverflow;
 import com.see.app.sonar.Issue;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -28,5 +30,13 @@ public class ApiController {
         return ServiceSonar.createCall().getIssues();
     }
 
+    // make sure that redis server is running
+    @GetMapping("/redis")
+    @ResponseBody
+    public boolean checkRedis()
+    {
+        SpringRedisManager springRedisManager = new SpringRedisManager();
+        return springRedisManager.checkConnection();
+    }
 
 }
