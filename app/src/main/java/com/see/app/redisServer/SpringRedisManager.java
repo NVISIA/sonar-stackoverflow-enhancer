@@ -1,6 +1,5 @@
 package com.see.app.redisServer;
 
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,7 +9,7 @@ import redis.clients.jedis.Jedis;
 public class SpringRedisManager {
 
     private static boolean redisOnline;
-
+    private static String host = "localhost";
     public SpringRedisManager() {
 
         redisOnline = checkConnection();
@@ -25,7 +24,7 @@ public class SpringRedisManager {
     }
 
     public static boolean checkConnection(){
-        Jedis jedis = new Jedis("localhost"); // for now we assume redis is running on the same IP
+        Jedis jedis = new Jedis(host); // for now we assume redis is running on the same IP
         String output;
         try {
            output = jedis.ping();
@@ -33,8 +32,8 @@ public class SpringRedisManager {
         catch (Exception error){
             return false;
         }
+        System.out.println("Jedis info : " + jedis.info());
         boolean checkOnline = (output.contains("PONG"));
-        System.out.println("Redis server status: " + checkOnline);
         if(checkOnline){
             System.out.println("-----------The redis connection is successful-----------");
         }
@@ -44,6 +43,13 @@ public class SpringRedisManager {
             System.err.println("Please check redis is running, and set up on the correct port");
         }
         return checkOnline;
+    }
+
+    public static String getInfo()
+    {
+        if(!redisOnline){return "Redis is offline, no information to give . . .";}
+        Jedis jedis = new Jedis(host);
+        return jedis.info();
     }
 
     public static void setValue(String key, String content) {
@@ -82,6 +88,5 @@ public class SpringRedisManager {
             ctx.close();
         }
         return redisValue;
-
     }
 }
