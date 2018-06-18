@@ -32,7 +32,6 @@ public class SpringRedisManager {
         catch (Exception error){
             return false;
         }
-        System.out.println("Jedis info : " + jedis.info());
         boolean checkOnline = (output.contains("PONG"));
         if(checkOnline){
             System.out.println("-----------The redis connection is successful-----------");
