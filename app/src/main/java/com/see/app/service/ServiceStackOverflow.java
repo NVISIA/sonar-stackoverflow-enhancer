@@ -22,11 +22,8 @@ public class ServiceStackOverflow {
 
     private static final String SO_API_URL_2_2 = "https://api.stackexchange.com/2.2/";
 
-    SpringRedisManager redisManager;
-
     @Autowired
     public ServiceStackOverflow() {
-        redisManager = new SpringRedisManager();
     }
 
     private String SO_API_QUESTION(String query) {

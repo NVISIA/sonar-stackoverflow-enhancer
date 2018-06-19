@@ -1,7 +1,6 @@
 package com.see.app.service;
 
 import com.see.app.sonar.SonarObject;
-import org.springframework.http.ResponseEntity;
 
 public class ServiceSonar {
 
@@ -9,9 +8,8 @@ public class ServiceSonar {
 
 
     public static SonarObject createCall(){
-        ResponseEntity<String> answerResponse = ServiceGeneralAPI.callGenericAPI(SONAR_API_URL);
-        SonarObject answerObject = ServiceGeneralAPI.mapResponseToSonar(answerResponse.getBody());
-        return answerObject;
+        return ServiceGeneralAPI.mapResponseToSonar(
+                ServiceGeneralAPI.callGenericAPI(SONAR_API_URL).getBody());
     }
 
 }

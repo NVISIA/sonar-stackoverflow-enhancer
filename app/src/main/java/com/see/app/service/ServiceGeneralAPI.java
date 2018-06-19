@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class ServiceGeneralAPI {
 
+    private ServiceGeneralAPI(){}
+
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static ResponseEntity<String> callGenericAPI(String resourceUrl) {
@@ -43,21 +45,11 @@ public class ServiceGeneralAPI {
         }
     }
 
-    public static <T> T mapResponse(String response, JavaType classType )
-    {
-        try {
-            return objectMapper.readValue(response,classType);
-        }
-        catch(Exception e)
-        {}
-        return null;
-    }
-
     public static StackOverflowAnswer mapResponseToAnswer(String response) {
         try {
             return objectMapper.readValue(getContent(response), StackOverflowAnswer.class);
         } catch (Exception error) {
-            throw new AssertionError("Can't map json to a java object");
+            throw createJSONError();
         }
     }
 
@@ -66,7 +58,7 @@ public class ServiceGeneralAPI {
             JsonNode array = objectMapper.readValue(response, JsonNode.class);
             return array.toString();
         } catch (Exception exception) {
-            throw new AssertionError("Can't read the values from the json");
+            throw createJSONError();
         }
     }
 
@@ -76,8 +68,13 @@ public class ServiceGeneralAPI {
         try {
             return objectMapper.readValue(getSonarContent(response), SonarObject.class);
         } catch (Exception error) {
-            throw new AssertionError("Can't map json to a java object");
+            throw createJSONError();
         }
+    }
+
+    private static AssertionError createJSONError()
+    {
+        return new AssertionError("Can't map json to object");
     }
 
 
