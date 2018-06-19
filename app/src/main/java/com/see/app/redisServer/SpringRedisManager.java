@@ -1,5 +1,7 @@
 package com.see.app.redisServer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,23 +10,21 @@ import redis.clients.jedis.Jedis;
 
 public class SpringRedisManager {
 
-    private static boolean redisOnline;
-    private static String host = "localhost";
-    public SpringRedisManager() {
+    //TODO: get values from configuration file
+    private static String springRedisHost = "localhost";
+    private static int springRedisPort = 6379;
+    private static boolean redisOnline = false;
+    private static final Jedis jedis = new Jedis(springRedisHost);
+    private static final Logger logger = LoggerFactory.getLogger(SpringRedisManager.class);
 
+    private SpringRedisManager(){}
+
+    public static void initiateConnection()
+    {
         redisOnline = checkConnection();
-        if(redisOnline){
-            System.out.println("-----------The redis connection is successful-----------");
-        }
-        else
-        {
-            System.err.println("-----------Reddis connection cannot be established-----------");
-            System.err.println("Please check redis is running, and set up on the correct port");
-        }
     }
 
     public static boolean checkConnection(){
-        Jedis jedis = new Jedis(host); // for now we assume redis is running on the same IP
         String output;
         try {
            output = jedis.ping();
@@ -34,28 +34,38 @@ public class SpringRedisManager {
         }
         boolean checkOnline = (output.contains("PONG"));
         if(checkOnline){
-            System.out.println("-----------The redis connection is successful-----------");
+            printConnectionSuccess();
         }
         else
         {
-            System.err.println("-----------Reddis connection cannot be established-----------");
-            System.err.println("Please check redis is running, and set up on the correct port");
+            printConncetionError();
         }
         return checkOnline;
+    }
+
+    private static void printConncetionError()
+    {
+        logger.error("-----------Reddis connection cannot be established-----------\n" +
+                "Please check redis is running, and set up on the correct port");
+    }
+
+    private static void printConnectionSuccess()
+    {
+        logger.info("-----------The redis connection is successful on " +
+                springRedisHost + ":"+springRedisPort+ "-----------");
     }
 
     public static String getInfo()
     {
         if(!redisOnline){return "Redis is offline, no information to give . . .";}
-        Jedis jedis = new Jedis(host);
         return jedis.info();
     }
 
     public static void setValue(String key, String content) {
-        if(redisOnline == false)
+        if(!redisOnline)
         {
-            System.err.println("Redis Server is currently offline, cannot set the values . . . Please check redis is running");
-            return; // leave early, we cannot set values, sorry
+            printConncetionError();
+             return;
         }
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringRedisConfig.class);
@@ -69,10 +79,10 @@ public class SpringRedisManager {
     }
 
     public static String getValue(String key) {
-        if(redisOnline == false)
+        if(!redisOnline)
         {
-            System.err.println("Redis Server is currently offline, cannot get the values . . . Please check redis is running");
-            return null; // leave early, we cannot set values, sorry
+            printConncetionError();
+            return null;
         }
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringRedisConfig.class);
