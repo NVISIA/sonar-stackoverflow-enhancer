@@ -34,15 +34,13 @@ public class ApiController {
     @ResponseBody
     public boolean checkRedisOnline()
     {
-        SpringRedisManager springRedisManager = new SpringRedisManager();
-        return springRedisManager.checkConnection();
+        return SpringRedisManager.checkConnection();
     }
 
     @GetMapping("/redis/info")
     @ResponseBody
     public String getRedisInfo()
     {
-        SpringRedisManager springRedisManager = new SpringRedisManager();
-        return springRedisManager.getInfo();
+        return SpringRedisManager.getInfo();
     }
 }
