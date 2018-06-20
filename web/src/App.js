@@ -1,51 +1,54 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SonarApi from "./SonarApi"
+import SonarApi from "./SonarApi/SonarApi";
+import StackApi from "./StackApi/StackApi";
+import LoginModal from "./LoginModal/LoginModal";
+import { Row, Col } from 'react-bootstrap';
+
+import { Button} from 'react-bootstrap';
+// import '../react-bootstrap/dist/css/bootstrap.min.css';
+
+
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputValue: 'Gradle issue'
+            inputValue: 'Sample issue'
         };
+        this.handleChange = this.handleChange.bind(this);
     }
+
+    handleChange(event) {
+        this.setState({inputValue: event.target.inputValue});
+    }
+
   render() {
     return (
+
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+            <h1 className="App-title">Welcome to SEE (sonar stackoverflow enhancer)</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-          <input id="userInput" value={this.state.inputValue}/>
-          <button onClick={callApi()}>
-              Resolve issues from sonar
-          </button>
-          <button onClick={test}>
-              Get issues from sonar
-          </button>
-          <SonarApi/>
+        </p><Col>
+          <LoginModal/>
+          <input id="userInput"value={this.state.inputValue} onChange={this.handleChange}/></Col>
+          <Row className="show-grid">
+              <Col xs={6} md={6}>
+                  <SonarApi/>
+              </Col>
+              <Col xs={6} md={6}>
+                  <StackApi/>
+              </Col>
+          </Row>
+
       </div>
 
     );
   }
 }
-
-function test() {
-    console.log("Button press" + Math.random(0,100))
-}
-
-function callApi(value) {
-    console.log(value);
-}
-
-function ActionLink() {
-    function handleClick(e) {
-        e.preventDefault();
-        console.log('The link was clicked.');
-    }}
 
 export default App;
