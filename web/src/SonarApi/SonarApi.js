@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../App.css';
+import { Button} from 'react-bootstrap';
 
 class SonarApi extends Component {
     constructor(props) {
@@ -28,9 +28,9 @@ class SonarApi extends Component {
     render() {
         return (
                 <div className="container2">
-                    <button className ="btn btn-primary" onClick={this.handleClick}>
+                    <Button bsStyle="primary" onClick={this.handleClick}>
                         Get issues from sonar
-                    </button>
+                    </Button>
                     <div className="container1">
                         {this.state.issues}
                     </div>
