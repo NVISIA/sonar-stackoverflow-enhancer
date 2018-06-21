@@ -5,7 +5,7 @@ class StackApi extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            answer: ''
+            answer: null
         };
        // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -15,11 +15,16 @@ class StackApi extends Component {
         fetch('http://localhost:8080/stack-api/gradle')
             .then(results => {
                 return results.json();
+            }).catch(function() {
+            console.log("error");
             })
             .then(data => {
                 console.log(data);
                 this.setState({answer: data.body})
+            }).catch(function() {
+            console.log("error")
             })
+
     }
 
 
@@ -29,9 +34,13 @@ class StackApi extends Component {
                 <Button bsStyle="primary" onClick={this.handleClick}>
                     Stackoverflow solution
                 </Button>
-                <div className="container1">
-                    {this.state.issues}
-                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                             <td dangerouslySetInnerHTML={{__html: this.state.answer}} />
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }

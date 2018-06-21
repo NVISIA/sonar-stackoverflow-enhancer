@@ -4,12 +4,7 @@ import './App.css';
 import SonarApi from "./SonarApi/SonarApi";
 import StackApi from "./StackApi/StackApi";
 import LoginModal from "./LoginModal/LoginModal";
-import { Row, Col } from 'react-bootstrap';
-
-import { Button} from 'react-bootstrap';
-// import '../react-bootstrap/dist/css/bootstrap.min.css';
-
-
+import { Row, Col} from 'react-bootstrap';
 
 class App extends Component {
     constructor(props) {
@@ -26,7 +21,6 @@ class App extends Component {
 
   render() {
     return (
-
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -44,7 +38,6 @@ class App extends Component {
                   <StackApi/>
               </Col>
           </Row>
-
       </div>
 
     );
