@@ -5,14 +5,20 @@ class StackApi extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            answer: null
+            answer: null,
+            inputValue: ''
         };
        // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({inputValue: event.target.inputValue});
     }
 
     handleClick() {
-        fetch('http://localhost:8080/stack-api/gradle')
+        fetch('http://localhost:8080/stack-api/' + this.state.inputValue)
             .then(results => {
                 return results.json();
             }).catch(function() {
@@ -31,6 +37,8 @@ class StackApi extends Component {
     render() {
         return (
             <div className="container2">
+                <input id="userInput" placeholder="Enter custom issue" value={this.state.inputValue}  onChange={this.handleChange}/>
+                <br></br>
                 <Button bsStyle="primary" onClick={this.handleClick}>
                     Stackoverflow solution
                 </Button>

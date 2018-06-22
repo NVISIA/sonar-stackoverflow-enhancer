@@ -7,19 +7,7 @@ import LoginModal from "./LoginModal/LoginModal";
 import { Row, Col} from 'react-bootstrap';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputValue: 'Sample issue'
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({inputValue: event.target.inputValue});
-    }
-
-  render() {
+    render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -29,7 +17,7 @@ class App extends Component {
         <p className="App-intro">
         </p><Col>
           <LoginModal/>
-          <input id="userInput"value={this.state.inputValue} onChange={this.handleChange}/></Col>
+          </Col>
           <Row className="show-grid">
               <Col xs={6} md={6}>
                   <SonarApi/>
