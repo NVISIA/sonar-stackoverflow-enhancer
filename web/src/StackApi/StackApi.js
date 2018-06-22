@@ -6,7 +6,7 @@ class StackApi extends Component {
         super(props);
         this.state = {
             answer: null,
-            inputValue: 'Enter custom issue'
+            inputValue: ''
         };
        // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);

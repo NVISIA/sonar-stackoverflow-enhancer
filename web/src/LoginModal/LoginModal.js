@@ -61,39 +61,39 @@ class LoginModal extends React.Component {
     }
 
     signIntoSee(){
-        this.setState({token: btoa(this.state.username+":"+this.state.password)})
+        console.log(this.state.username)
+        console.log(this.state.password)
+        let token = btoa(this.state.username+":"+this.state.password)
+        this.setState({token: token})
+        console.log(token)
         fetch("http://localhost:8080/stack-api/",{
             method: 'GET',
             headers: new Headers({
-                    'Authorization': 'Basic ' + this.state.token,
+                    'Authorization': 'Basic ' + token,
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
         })
             .then(results => {
                 return results.json();
-            }).catch(function() {
-        })
+            }).catch(function() {})
             .then(data => {
-                if(data == null)
-                {this.setState({showError: true})}
-                else
-                 this.setOutcome()
+                if(data == null) {
+                    this.setState({showError: true})
+                }
+                else {
+                    this.setState({logIn: true});
+                    this.closeModal
+                }
             }).catch(function() {
-            }).then().catch(function () {
-            this.setState({showError: true})
-        })
+            this.setState({showError: false})
+            })
 
-    }
-
-    setOutcome()
-    {
-        this.setState({logIn: true});
-        this.setState({modalIsOpen: false});
     }
 
     setLogin()
     {
         this.setState({logIn: false});
+        this.closeModal();
     }
 
     render() {
@@ -132,12 +132,10 @@ class LoginModal extends React.Component {
                     </form>
                     <hr></hr>
                     <Row className="show-grid">
-                        <Col xs={6} md={4}>
-                            <Button bsStyle="default" onClick={this.closeModal}>Cancel</Button>
+                        <Col sm={8} md={4}>
+                            <Button bsStyle="default" onClick={this.setLogin}>Cancel</Button>
                         </Col>
-                        <Col xs={6} md={4}>
-                        </Col>
-                        <Col xsHidden md={4}>
+                        <Col sm={2} md={4}>
                             <Button bsStyle="success" onClick={this.signIntoSee}>Sign in</Button>
                         </Col>
                     </Row>
