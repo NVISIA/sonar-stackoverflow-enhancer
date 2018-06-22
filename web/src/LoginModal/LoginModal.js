@@ -59,7 +59,7 @@ class LoginModal extends React.Component {
         fetch("http://localhost:8080/stack-api/gradle",{
             method: 'GET',
             headers: new Headers({
-                'Authorization': 'Basic ' + btoa(this.state.username+":"+this.state.password),
+                    'Authorization': 'Basic ' + btoa(this.state.username+":"+this.state.password),
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
         })
@@ -75,7 +75,7 @@ class LoginModal extends React.Component {
             }).catch(function() {
             })
 
-        if(this.state.logIn == false)
+        if(this.state.logIn === false)
         {
             this.setError()
         }

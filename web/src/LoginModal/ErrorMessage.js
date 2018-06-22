@@ -8,9 +8,6 @@ const pStyle = {
 
 class ErrorMessage extends React.Component
 {
-    constructor() {
-        super();
-    }
     render(){
     return (
         <div id="results" className="search-results">
