@@ -1,18 +1,15 @@
 package com.see.app.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.see.app.redisServer.SpringRedisManager;
 import com.see.app.stackOverflow.StackOverflowAnswer;
 import com.see.app.stackOverflow.StackOverflowQuestion;
-import org.apache.http.impl.client.HttpClientBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,7 +18,7 @@ import java.net.URLEncoder;
 public class ServiceStackOverflow {
 
     private static final String SO_API_URL_2_2 = "https://api.stackexchange.com/2.2/";
-
+    private static final Logger logger = LoggerFactory.getLogger(ServiceStackOverflow.class);
     @Autowired
     public ServiceStackOverflow() {
     }
@@ -45,6 +42,7 @@ public class ServiceStackOverflow {
         StackOverflowQuestion questionObject;
         String redisContentQuestion = SpringRedisManager.getValue(issue);
         if (redisContentQuestion == null) {
+            logger.info("Redis value is not present, calling StackQuestion api with: " + issue);
             questionObject = callQuestionAPI(issue);
             SpringRedisManager.setValue(issue, questionObject.getQuestionId().toString());
         } else {
@@ -58,8 +56,11 @@ public class ServiceStackOverflow {
         String redisContent = SpringRedisManager.getValue(answerID);
         StackOverflowAnswer answerObject;
         if (redisContent == null) {
+            logger.info("Redis value is not present, calling StackAnswer api with: " + answerID);
             answerObject = callAnswerAPI(answerID);
+            SpringRedisManager.setValue(answerID,answerObject.getBody());
         } else {
+            logger.info("Redis value is present, when the value \' " + answerID + "\' is used, return of it is" +redisContent);
             answerObject = new StackOverflowAnswer();
             answerObject.setBody(redisContent);
         }

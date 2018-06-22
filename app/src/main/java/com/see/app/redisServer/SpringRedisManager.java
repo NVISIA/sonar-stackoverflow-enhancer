@@ -6,8 +6,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+@Service
 public class SpringRedisManager {
 
     //TODO: get values from configuration file
