@@ -6,7 +6,7 @@ class StackApi extends Component {
         super(props);
         this.state = {
             answer: null,
-            inputValue: ''
+            inputValue: 'Enter custom issue'
         };
        // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -14,11 +14,17 @@ class StackApi extends Component {
     }
 
     handleChange(event) {
-        this.setState({inputValue: event.target.inputValue});
+        this.setState({inputValue: event.target.value});
     }
 
     handleClick() {
-        fetch('http://localhost:8080/stack-api/' + this.state.inputValue)
+        fetch("http://localhost:8080/stack-api/"+ this.state.inputValue,{
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': 'Basic ' + this.props.token,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        })
             .then(results => {
                 return results.json();
             }).catch(function() {
@@ -26,6 +32,7 @@ class StackApi extends Component {
             })
             .then(data => {
                 console.log(data);
+                console.log(this.state.inputValue)
                 this.setState({answer: data.body})
             }).catch(function() {
             console.log("error")
@@ -42,6 +49,7 @@ class StackApi extends Component {
                 <Button bsStyle="primary" onClick={this.handleClick}>
                     Stackoverflow solution
                 </Button>
+            <br></br>
                 <table>
                     <tbody>
                         <tr>

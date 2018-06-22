@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './NVISIA-Logo.png';
 import './App.css';
 import SonarApi from "./SonarApi/SonarApi";
 import StackApi from "./StackApi/StackApi";
@@ -15,15 +15,13 @@ class App extends Component {
             <h1 className="App-title">Welcome to SEE (sonar stackoverflow enhancer)</h1>
         </header>
         <p className="App-intro">
-        </p><Col>
-          <LoginModal/>
-          </Col>
+        </p>
           <Row className="show-grid">
               <Col xs={6} md={6}>
                   <SonarApi/>
               </Col>
               <Col xs={6} md={6}>
-                  <StackApi/>
+                  <LoginModal/>
               </Col>
           </Row>
       </div>

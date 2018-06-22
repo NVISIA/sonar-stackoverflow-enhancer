@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import ErrorMessage from './ErrorMessage'
+import ErrorMessage from './ErrorMessage';
+import SuccessNotificaiton from './SuccessNotification';
+import StackApi from "../StackApi/StackApi";
 import { Button,Col,Row} from 'react-bootstrap';
 
 const customStyles = {
@@ -25,7 +27,8 @@ class LoginModal extends React.Component {
             showError: false,
             logIn: false,
             username: '',
-            password: ''
+            password: '',
+            token:''
 
         };
 
@@ -34,6 +37,7 @@ class LoginModal extends React.Component {
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.setLogin = this.setLogin.bind(this);
     }
 
     openModal() {
@@ -43,6 +47,7 @@ class LoginModal extends React.Component {
     afterOpenModal() {
         // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#5bb85b';
+        this.setState({showError: false})
     }
 
     closeModal() {
@@ -56,10 +61,11 @@ class LoginModal extends React.Component {
     }
 
     signIntoSee(){
-        fetch("http://localhost:8080/stack-api/gradle",{
+        this.setState({token: btoa(this.state.username+":"+this.state.password)})
+        fetch("http://localhost:8080/stack-api/",{
             method: 'GET',
             headers: new Headers({
-                    'Authorization': 'Basic ' + btoa(this.state.username+":"+this.state.password),
+                    'Authorization': 'Basic ' + this.state.token,
                 'Content-Type': 'application/x-www-form-urlencoded'
             })
         })
@@ -69,22 +75,14 @@ class LoginModal extends React.Component {
         })
             .then(data => {
                 if(data == null)
-                {this.setError()}
+                {this.setState({showError: true})}
                 else
                  this.setOutcome()
             }).catch(function() {
-            })
+            }).then().catch(function () {
+            this.setState({showError: true})
+        })
 
-        if(this.state.logIn === false)
-        {
-            this.setError()
-        }
-    }
-
-
-    setError()
-    {
-        this.setState({showError: true})
     }
 
     setOutcome()
@@ -93,10 +91,20 @@ class LoginModal extends React.Component {
         this.setState({modalIsOpen: false});
     }
 
+    setLogin()
+    {
+        this.setState({logIn: false});
+    }
 
     render() {
         if( this.state.logIn === true){
-            return ( <div><Button bsStyle="danger">Logout</Button></div>)
+            return (
+                <div>
+                    <Button bsStyle="danger"  onClick={this.setLogin}>Logout</Button>
+                    <StackApi token={this.state.token}/>
+                    <SuccessNotificaiton active = {true}/>
+                </div>
+            )
         }
         else
         return (
