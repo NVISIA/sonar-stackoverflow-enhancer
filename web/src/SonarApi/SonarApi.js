@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button} from 'react-bootstrap';
 import './SonarApi.css'
+import SelectList from "./SelectList"
 
 class SonarApi extends Component {
     constructor(props) {
@@ -18,23 +19,24 @@ class SonarApi extends Component {
             })
             .then(data => {
                 let issues = data.issues.map((issue) => {
-                    return (
-                        <p key={issue.key}>{issue.message}</p>
-                    )
+                    var message = (issue.message)
+                    message = message.replace(/['"]+/g, '')
+                    var output ={ "value": message ,"label":  message}
+                    return (output )
                 })
-                this.setState({issues: issues})
+                this.setState({issues: issues});
+                console.log(issues);
             })
     }
 
     render() {
+        console.log(this.state.issues)
         return (
                 <div className="container2">
                     <Button bsStyle="primary" onClick={this.handleClick}>
                         Get issues from sonar
                     </Button>
-                    <div className="issueslist">
-                        {this.state.issues}
-                    </div>
+                    <SelectList values={this.state.issues} />
                 </div>
         );
     }
