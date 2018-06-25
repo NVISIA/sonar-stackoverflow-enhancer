@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import ErrorMessage from './ErrorMessage';
 import SuccessNotificaiton from './SuccessNotification';
 import StackApi from "../StackApi/StackApi";
+import SonarApi from "../SonarApi/SonarApi";
 import { Button,Col,Row} from 'react-bootstrap';
 
 const customStyles = {
@@ -83,9 +83,9 @@ class LoginModal extends React.Component {
                 else {
                     this.setState({logIn: true});
                     this.closeModal
+                    this.setState({showError: false})
                 }
             }).catch(function() {
-            this.setState({showError: false})
             })
 
     }
@@ -97,12 +97,13 @@ class LoginModal extends React.Component {
     }
 
     render() {
+        const token = this.state.token;
         if( this.state.logIn === true){
             return (
                 <div>
                     <Button bsStyle="danger"  onClick={this.setLogin}>Logout</Button>
-                    <StackApi token={this.state.token}/>
-                    <SuccessNotificaiton active = {true}/>
+                        <SonarApi token ={token}/>
+                        <SuccessNotificaiton active = {true}/>
                 </div>
             )
         }

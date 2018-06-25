@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button} from 'react-bootstrap';
+import SonarApi from '../SonarApi/SonarApi'
 
 class StackApi extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class StackApi extends Component {
     }
 
     handleClick() {
-        fetch("http://localhost:8080/stack-api/"+ this.state.inputValue,{
+        fetch("http://localhost:8080/stack-api/"+ this.props.value.label,{
             method: 'GET',
             headers: new Headers({
                 'Authorization': 'Basic ' + this.props.token,
@@ -32,7 +33,7 @@ class StackApi extends Component {
             })
             .then(data => {
                 console.log(data);
-                console.log(this.state.inputValue)
+                console.log(this.props.value.label)
                 this.setState({answer: data.body})
             }).catch(function() {
             console.log("error")
@@ -44,7 +45,7 @@ class StackApi extends Component {
     render() {
         return (
             <div className="container2">
-                <input id="userInput" placeholder="Enter custom issue" value={this.state.inputValue}  onChange={this.handleChange}/>
+                {/*<input id="userInput" placeholder="Enter custom issue" value={this.state.inputValue}  onChange={this.handleChange}/>*/}
                 <br></br>
                 <Button bsStyle="primary" onClick={this.handleClick}>
                     Stackoverflow solution

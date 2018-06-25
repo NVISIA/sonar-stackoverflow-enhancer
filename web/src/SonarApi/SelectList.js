@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import StackApi from "../StackApi/StackApi";
 
 class SelectList extends React.Component {
     constructor(props) {
@@ -20,12 +21,15 @@ class SelectList extends React.Component {
         const { selectedOption } = this.state;
 
         return (
-            <Select
-                name="form-field-name"
-                value={selectedOption}
-                onChange={this.handleChange}
-                options={this.props.values}
-            />
+            <div>
+                <Select
+                    name="form-field-name"
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={this.props.values}
+                />
+                <StackApi value={this.state.selectedOption} token={this.props.token}/>
+            </div>
         );
     }
 }

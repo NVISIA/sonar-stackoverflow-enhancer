@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button} from 'react-bootstrap';
 import './SonarApi.css'
 import SelectList from "./SelectList"
+import StackApi from "../StackApi/StackApi";
 
 class SonarApi extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class SonarApi extends Component {
             issues:[],
         };
         this.handleClick = this.handleClick.bind(this);
+        this.handleClick()
     }
 
     handleClick() {
@@ -32,12 +34,7 @@ class SonarApi extends Component {
     render() {
         console.log(this.state.issues)
         return (
-                <div className="container2">
-                    <Button bsStyle="primary" onClick={this.handleClick}>
-                        Get issues from sonar
-                    </Button>
-                    <SelectList values={this.state.issues} />
-                </div>
+                    <SelectList values={this.state.issues} token = {this.props.token} />
         );
     }
 }
