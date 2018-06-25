@@ -17,12 +17,12 @@ class App extends Component {
         <p className="App-intro">
         </p>
           <Row className="show-grid">
+              <Col xs={3} md={3}></Col>
               <Col xs={6} md={6}>
                   <SonarApi/>
-              </Col>
-              <Col xs={6} md={6}>
                   <LoginModal/>
               </Col>
+              <Col xs={3} md={3}></Col>
           </Row>
       </div>
 
