@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
-import logo from './NVISIA-Logo.png';
+import React, {Component} from 'react';
 import './App.css';
-import SonarApi from "./SonarApi/SonarApi";
-import StackApi from "./StackApi/StackApi";
 import LoginModal from "./LoginModal/LoginModal";
-import LoginManager from "./LoginModal/LoginManager"
 import NavBar from "./NavigationBar/NavBar"
-import { Row, Col, Nav, Navbar, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 
 class App extends Component {
     render() {
@@ -19,11 +15,9 @@ class App extends Component {
         <p className="App-intro">
         </p>
           <Row className="show-grid">
-              <Col xs={3} md={3}></Col>
-              <Col xs={6} md={6}>
+              <Col xs={12} md={12}>
                   <LoginModal/>
               </Col>
-              <Col xs={3} md={3}></Col>
           </Row>
       </div>
 

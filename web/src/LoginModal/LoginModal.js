@@ -2,9 +2,8 @@ import React from 'react';
 import Modal from 'react-modal';
 import ErrorMessage from './ErrorMessage';
 import SuccessNotificaiton from './SuccessNotification';
-import StackApi from "../StackApi/StackApi";
 import SonarApi from "../SonarApi/SonarApi";
-import { Button,Col,Row} from 'react-bootstrap';
+import {Button, Col, Row} from 'react-bootstrap';
 
 const customStyles = {
     content : {
@@ -61,11 +60,10 @@ class LoginModal extends React.Component {
     }
 
     signIntoSee(){
-        console.log(this.state.username)
-        console.log(this.state.password)
-        let token = btoa(this.state.username+":"+this.state.password)
-        this.setState({token: token})
-        console.log(token)
+        console.log(this.state.username);
+        console.log(this.state.password);
+        let token = btoa(this.state.username+":"+this.state.password);
+        this.setState({token: token});
         fetch("http://localhost:8080/stack-api/",{
             method: 'GET',
             headers: new Headers({
@@ -78,12 +76,12 @@ class LoginModal extends React.Component {
             }).catch(function() {})
             .then(data => {
                 if(data == null) {
-                    this.setState({showError: true})
+                    this.setState({showError: true});
                 }
                 else {
                     this.setState({logIn: true});
-                    this.closeModal
-                    this.setState({showError: false})
+                    this.closeModal();
+                    this.setState({showError: false});
                 }
             }).catch(function() {
             })
@@ -118,7 +116,7 @@ class LoginModal extends React.Component {
                     style={customStyles}
                     contentLabel="Example Modal"
                 >
-                    <button type="button" className="close" aria-label="Close"onClick={this.closeModal}>
+                    <button type="button" className="close" aria-label="Close" onClick={this.closeModal}>
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h1 ref={subtitle => this.subtitle = subtitle}>Sign in</h1>
@@ -131,7 +129,7 @@ class LoginModal extends React.Component {
                         <label htmlFor="password">Password:</label>
                         <input type="password" className="form-control" id="password" name="password" placeholder="Enter password" value ={this.state.password} onChange={this.handleChange}/>
                     </form>
-                    <hr></hr>
+                    <hr/>
                     <Row className="show-grid">
                         <Col sm={8} md={4}>
                             <Button bsStyle="default" onClick={this.setLogin}>Cancel</Button>

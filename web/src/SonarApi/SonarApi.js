@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import { Button} from 'react-bootstrap';
+import React, {Component} from 'react';
 import './SonarApi.css'
 import SelectList from "./SelectList"
-import StackApi from "../StackApi/StackApi";
 
 class SonarApi extends Component {
     constructor(props) {
@@ -21,18 +19,17 @@ class SonarApi extends Component {
             })
             .then(data => {
                 let issues = data.issues.map((issue) => {
-                    var message = (issue.message)
-                    message = message.replace(/['"]+/g, '')
-                    var output ={ "value": message ,"label":  message}
-                    return (output )
-                })
+                    // make sure message doesn't contain ' or ''
+                    let message = (issue.message).replace(/['"]+/g, '\'');
+                    message = message.replace(/['"]+/g, '');
+                    const output ={ "value": message ,"label":  message};
+                    return (output );
+                });
                 this.setState({issues: issues});
-                console.log(issues);
             })
     }
 
     render() {
-        console.log(this.state.issues)
         return (
                     <SelectList values={this.state.issues} token = {this.props.token} />
         );

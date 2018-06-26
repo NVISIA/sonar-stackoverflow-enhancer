@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { Button} from 'react-bootstrap';
-import SonarApi from '../SonarApi/SonarApi'
+import React, {Component} from 'react';
+import {Button} from 'react-bootstrap';
 
 class StackApi extends Component {
     constructor(props) {
@@ -9,7 +8,6 @@ class StackApi extends Component {
             answer: null,
             inputValue: ''
         };
-       // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -29,14 +27,10 @@ class StackApi extends Component {
             .then(results => {
                 return results.json();
             }).catch(function() {
-            console.log("error");
             })
             .then(data => {
-                console.log(data);
-                console.log(this.props.value.label)
                 this.setState({answer: data.body})
             }).catch(function() {
-            console.log("error")
             })
 
     }
@@ -46,11 +40,11 @@ class StackApi extends Component {
         return (
             <div className="container2">
                 {/*<input id="userInput" placeholder="Enter custom issue" value={this.state.inputValue}  onChange={this.handleChange}/>*/}
-                <br></br>
+                <br />
                 <Button bsStyle="primary" onClick={this.handleClick}>
                     Stackoverflow solution
                 </Button>
-            <br></br>
+                <br/>
                 <table>
                     <tbody>
                         <tr>

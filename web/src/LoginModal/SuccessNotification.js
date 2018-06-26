@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Notification } from 'react-notification';
+import React from 'react';
+import {Notification} from 'react-notification';
 
 class SuccessNotification extends React.Component {
     constructor(props) {
