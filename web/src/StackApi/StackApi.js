@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'react-bootstrap';
+import {Button,Row,Col} from 'react-bootstrap';
 
 class StackApi extends Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class StackApi extends Component {
                     Stackoverflow solution
                 </Button>
                 <br/>
-                <table>
+                <table align="center">
                     <tbody>
                         <tr>
                              <td dangerouslySetInnerHTML={{__html: this.state.answer}} />
