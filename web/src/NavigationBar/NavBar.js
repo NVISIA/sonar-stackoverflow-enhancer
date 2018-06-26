@@ -1,15 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from '../NVISIA-Logo.png';
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from 'react-bootstrap';
 
 class NavBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            answer: null,
-            inputValue: ''
-        };
-        // this.renderSolutionText = this.renderSolutionText.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -24,7 +19,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <Navbar inverse collapseOnSelect>
+            <Navbar style={{marginBottom: "0"}} inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Toggle />
                 </Navbar.Header>
@@ -43,9 +38,6 @@ class NavBar extends Component {
                             <MenuItem divider />
                             <MenuItem eventKey={3.3}>Separated link</MenuItem>
                         </NavDropdown>
-                    </Nav>
-                    <Nav pullRight>
-                        {/*<Button>Log in</Button>*/}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
