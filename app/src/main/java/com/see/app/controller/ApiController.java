@@ -7,6 +7,7 @@ import com.see.app.sonar.Issue;
 import com.see.app.stackOverflow.StackOverflowAnswer;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ import java.util.List;
 @Controller
 public class ApiController {
 
+    @CrossOrigin(origins = "localhost:80")
     @GetMapping("/stack-api/{issue}")
     @ResponseBody
     public StackOverflowAnswer stackAPI(@PathVariable(value = "issue") String issue) {
@@ -23,6 +25,7 @@ public class ApiController {
         return soAPI.createCall(issue);
     }
 
+    @CrossOrigin(origins = "localhost:80")
     @GetMapping("/sonar-api")
     @ResponseBody
     public List<Issue> sonarAPI() {
