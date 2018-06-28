@@ -13,12 +13,17 @@ class SonarApi extends Component {
     }
 
     handleClick() {
-        fetch('http://localhost:9000/api/issues/search')
+        fetch('http://localhost:8080/sonar-api',{
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        }).catch()
             .then(results => {
                 return results.json();
             })
             .then(data => {
-                let issues = data.issues.map((issue) => {
+                let issues = data.map((issue) => {
                     // make sure message doesn't contain ' or ''
                     let message = (issue.message).replace(/['"]+/g, '\'');
                     message = message.replace(/['"]+/g, '');
