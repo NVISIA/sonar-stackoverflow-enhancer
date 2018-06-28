@@ -60,8 +60,6 @@ class LoginModal extends React.Component {
     }
 
     signIntoSee(){
-        console.log(this.state.username);
-        console.log(this.state.password);
         let token = btoa(this.state.username+":"+this.state.password);
         this.setState({token: token});
         fetch("http://localhost:8080/stack-api/",{
