@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button,Row,Col} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 class StackApi extends Component {
     constructor(props) {
@@ -21,7 +21,8 @@ class StackApi extends Component {
             method: 'GET',
             headers: new Headers({
                 'Authorization': 'Basic ' + this.props.token,
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
             })
         })
             .then(results => {
