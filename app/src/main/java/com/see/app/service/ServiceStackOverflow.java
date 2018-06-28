@@ -24,7 +24,7 @@ public class ServiceStackOverflow {
     }
 
     private String SO_API_QUESTION(String query) {
-        return SO_API_URL_2_2 + "search/advanced?order=desc&sort=votes&q=" + query + "&site=stackoverflow";
+        return SO_API_URL_2_2 + "/search/excerpts?order=desc&sort=votes&q=" + query + "&tagged=sonarqube&site=stackoverflow";
     }
 
     private String SO_API_ANSWER(String query) {
