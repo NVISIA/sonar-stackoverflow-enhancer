@@ -19,7 +19,7 @@ In this project there are two seperate modules. First one being **app** which is
  ```
 The application should start up on localhost:8080. There is a minimalistic front end for this application that can be used for testing, where it's recommended to use the web module for the the interface. 
   
-#####Launching react web
+##### Launching react web
 To launch the application with npm, navigate inside the web directory. From there, you can launch the application by typing the fallowing commands in your favorite terminal.
 ```
 npm install
